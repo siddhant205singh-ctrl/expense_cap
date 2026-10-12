@@ -20,7 +20,7 @@ const Login = () => {
   const navigate = useNavigate();
   
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
-    resolver: zodResolver(loginSchema)
+    resolver: zodResolver(loginSchema),
   });
 
   const onSubmit = async (data) => {
@@ -29,7 +29,12 @@ const Login = () => {
       toast.success('Welcome back!');
       navigate('/dashboard', { replace: true });
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to login');
+      const errorMessage =
+        error.response?.data?.error?.message ||
+        error.response?.data?.message ||
+        (error.code === 'ERR_NETWORK' ? 'Unable to connect to server. Please verify backend is running on port 5000.' : error.message) ||
+        'Failed to login';
+      toast.error(errorMessage);
     }
   };
 
@@ -45,33 +50,33 @@ const Login = () => {
             <ShieldCheck className="w-10 h-10" />
             <span className="text-2xl font-bold text-gray-900 dark:text-white">ExpenseCap</span>
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Sign in to your account</h1>
-          <p className="text-gray-500 mt-2">Cap your chaos. Grow your wealth.</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Welcome back</h1>
+          <p className="text-gray-500 mt-2">Sign in to manage your finances</p>
         </div>
 
         <Card padding="p-8">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <Input
               label="Email Address"
               type="email"
-              icon={Mail}
               placeholder="you@example.com"
-              {...register('email')}
+              icon={Mail}
               error={errors.email?.message}
+              {...register('email')}
             />
-            
+
             <Input
               label="Password"
               type="password"
-              icon={Lock}
               placeholder="••••••••"
-              {...register('password')}
+              icon={Lock}
               error={errors.password?.message}
+              {...register('password')}
             />
 
             <Button
               type="submit"
-              className="w-full"
+              className="w-full mt-6"
               size="lg"
               isLoading={isSubmitting}
             >
@@ -79,12 +84,12 @@ const Login = () => {
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+          <div className="mt-6 text-center text-sm text-gray-500">
             Don't have an account?{' '}
-            <Link to="/signup" className="font-semibold text-primary-600 hover:text-primary-500">
-              Sign up free
+            <Link to="/signup" className="text-primary-600 hover:text-primary-500 font-medium">
+              Create one for free
             </Link>
-          </p>
+          </div>
         </Card>
       </motion.div>
     </div>

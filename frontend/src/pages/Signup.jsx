@@ -34,7 +34,12 @@ const Signup = () => {
       toast.success('Account created successfully!');
       navigate('/dashboard', { replace: true });
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to create account');
+      const errorMessage =
+        error.response?.data?.error?.message ||
+        error.response?.data?.message ||
+        (error.code === 'ERR_NETWORK' ? 'Unable to connect to server. Please verify backend is running on port 5000.' : error.message) ||
+        'Failed to create account';
+      toast.error(errorMessage);
     }
   };
 
@@ -58,53 +63,54 @@ const Signup = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <Input
               label="Full Name"
-              icon={User}
+              type="text"
               placeholder="John Doe"
-              {...register('name')}
+              icon={User}
               error={errors.name?.message}
+              {...register('name')}
             />
 
             <Input
               label="Email Address"
               type="email"
-              icon={Mail}
               placeholder="you@example.com"
-              {...register('email')}
+              icon={Mail}
               error={errors.email?.message}
+              {...register('email')}
             />
-            
+
             <Input
               label="Password"
               type="password"
-              icon={Lock}
               placeholder="••••••••"
-              {...register('password')}
+              icon={Lock}
               error={errors.password?.message}
+              {...register('password')}
             />
 
             <Select
-              label="Default Currency"
+              label="Currency"
               options={CURRENCY_OPTIONS}
-              {...register('currency')}
               error={errors.currency?.message}
+              {...register('currency')}
             />
 
             <Button
               type="submit"
-              className="w-full mt-2"
+              className="w-full mt-6"
               size="lg"
               isLoading={isSubmitting}
             >
-              Sign Up Free
+              Get Started Free
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+          <div className="mt-6 text-center text-sm text-gray-500">
             Already have an account?{' '}
-            <Link to="/login" className="font-semibold text-primary-600 hover:text-primary-500">
+            <Link to="/login" className="text-primary-600 hover:text-primary-500 font-medium">
               Sign in
             </Link>
-          </p>
+          </div>
         </Card>
       </motion.div>
     </div>

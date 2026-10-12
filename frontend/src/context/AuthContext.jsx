@@ -5,14 +5,19 @@ export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken') || null);
+  const [accessToken, setAccessToken] = useState(() => {
+    const token = localStorage.getItem('accessToken');
+    return token && token !== 'undefined' ? token : null;
+  });
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchUser = useCallback(async () => {
     try {
-      if (accessToken) {
+      if (accessToken && accessToken !== 'undefined') {
         const userData = await authApi.getMe();
-        setUser(userData);
+        setUser(userData?.data || userData);
+      } else {
+        setUser(null);
       }
     } catch (error) {
       setUser(null);
@@ -29,19 +34,29 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     const data = await authApi.login(credentials);
-    localStorage.setItem('accessToken', data.accessToken);
-    if (data.refreshToken) localStorage.setItem('refreshToken', data.refreshToken);
-    setAccessToken(data.accessToken);
-    setUser(data.user);
+    const token = data?.accessToken;
+    const currentUser = data?.user || data;
+    if (token) {
+      localStorage.setItem('accessToken', token);
+      setAccessToken(token);
+    }
+    if (currentUser) {
+      setUser(currentUser);
+    }
     return data;
   };
 
   const register = async (userData) => {
     const data = await authApi.register(userData);
-    localStorage.setItem('accessToken', data.accessToken);
-    if (data.refreshToken) localStorage.setItem('refreshToken', data.refreshToken);
-    setAccessToken(data.accessToken);
-    setUser(data.user);
+    const token = data?.accessToken;
+    const currentUser = data?.user || data;
+    if (token) {
+      localStorage.setItem('accessToken', token);
+      setAccessToken(token);
+    }
+    if (currentUser) {
+      setUser(currentUser);
+    }
     return data;
   };
 
