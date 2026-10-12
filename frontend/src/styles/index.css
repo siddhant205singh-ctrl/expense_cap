@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 antialiased selection:bg-primary-200 selection:text-primary-900 dark:selection:bg-primary-900 dark:selection:text-primary-100;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-700 rounded-full hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors;
+}
+
+/* Glassmorphism utility */
+.glass {
+  @apply bg-white/70 dark:bg-gray-900/70 backdrop-blur-md border border-white/20 dark:border-gray-800/50 shadow-sm;
+}
+
+.glass-card {
+  @apply bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg border border-gray-100 dark:border-gray-700 shadow-sm rounded-xl;
+}
+
+/* Navigation bar thick frosted glass styling (remains white and translucent) */
+.glass-nav,
+.dark .glass-nav {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(20px) saturate(180%) contrast(95%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) contrast(95%) !important;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.75) !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* Ensure navbar contents remain high-contrast and readable on white glass */
+.glass-nav a:not(.group):not([href*="signup"]),
+.dark .glass-nav a:not(.group):not([href*="signup"]) {
+  color: #374151 !important; /* text-gray-700 */
+}
+
+.glass-nav a:not(.group):not([href*="signup"]):hover,
+.dark .glass-nav a:not(.group):not([href*="signup"]):hover {
+  color: #4f46e5 !important; /* hover:text-primary */
+}
+
+.glass-nav .brand-title,
+.glass-nav a[href="/"] {
+  color: #111827 !important; /* text-gray-900 */
+}
+
+.glass-nav button,
+.dark .glass-nav button {
+  color: #374151 !important;
+}
+
+/* Mobile dropdown navigation menu thick glass */
+.glass-nav-mobile,
+.dark .glass-nav-mobile {
+  background: rgba(255, 255, 255, 0.94) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.8) !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04) !important;
+}
+
+.glass-nav-mobile a:not([href*="signup"]),
+.dark .glass-nav-mobile a:not([href*="signup"]) {
+  color: #374151 !important;
+}
+
+.glass-nav-mobile a:not([href*="signup"]):hover,
+.dark .glass-nav-mobile a:not([href*="signup"]):hover {
+  color: #4f46e5 !important;
+}
+
+.perspective-2000 { perspective: 2000px; }
+.transform-style-3d { transform-style: preserve-3d; }
+.gsap-3d-card {
+  backface-visibility: hidden;
+  opacity: 1;
+}
+
+/* Hero Typewriter Gradient Text - High Contrast & Guaranteed Visible */
+.hero-gradient-text,
+#typewriter-text {
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 45%, #059669 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: #4f46e5 !important;
+  display: inline-block;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+/* .typewriter-cursor {
+  display: inline-block;
+  width: 4px;
+  height: 0.85em;
+  background-color: #4f46e5;
+  margin-left: 6px;
+  vertical-align: -0.05em;
+  border-radius: 2px;
+  animation: cursor-blink 0.9s infinite ease-in-out;
+} */
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Horizontal Scroll Section Styles */
+.horizontal-outer { overflow: hidden; }
+.horizontal-inner { display: flex; flex-wrap: nowrap; height: 100vh; width: 300%; } /* 3 panels = 300% */
+.horizontal-panel { width: 100vw; height: 100%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* Marquee Styles */
+.marquee-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+}
+.marquee-track {
+  display: flex;
+  gap: 2rem;
+  width: max-content;
+  will-change: transform;
+}
+
+/* Ticker Text Outline */
+.text-outline {
+    -webkit-text-stroke: 2px transparent;
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-stroke: 2px #ffffff;
+}
+.dark .text-outline {
+    -webkit-text-stroke: 2px #ffffff;
+}
